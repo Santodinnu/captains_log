@@ -12,14 +12,13 @@ const PORT = 5000
 const jsxEngine = require('jsx-view-engine')
 
 // bring in the router
-const fruitRoutes = require('./routes/fruitRoutes')
-const vegetableRoutes = require('./routes/vegetableRoutes')
+const logRoutes = require('./routes/logRoutes')
 
 // format our POST request data 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
-app.use('/fruits', fruitRoutes)
-app.use('/vegetables', vegetableRoutes)
+app.use('/logs', logRoutes)
+
 
 // setup our engine
 app.set('view engine', 'jsx');
