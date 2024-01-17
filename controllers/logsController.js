@@ -1,80 +1,89 @@
-const Log = require('../models/Log')
+const logs = require('../models/logs')
 
-// controllers/logs.js
+const logIndex = async(req, res) => {
+    try{
+        const data = await logs.find()
+    console.log('data from mongo:',data)
+    res.render('logs/Index', { logs: data })
 
-const express = require('express');
-const router = express.Router();
-const Log = require('../models/logs');
+    }catch(err){
+        console.log(err)
 
-// Index route
-router.get('/', async (req, res) => {
-  try {
-    const logs = await Log.find();
-    res.render('logs/Index', { logs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+    }
+    
+}
 
-// New route
-router.get('/new', (req, res) => {
-  res.render('logs/New');
-});
+const logNew = (req, res) => {
+    res.render('logs/New')
+}
 
-// Create route
-router.post('/', async (req, res) => {
-  try {
-    await Log.create(req.body);
-    res.redirect('/logs');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+// "show" route
+const logShow = async(req, res) => {
+    try{
+        console.log('hello')
+    const data = await logs.findById(req.params.id)
+    res.render('logs/Show', { log: data })
+    }catch(error){
+        console.log(error)
+    }
+   
+    // res.send(fruits[req.params.index])
+}
 
-// Show route
-router.get('/:id', async (req, res) => {
-  try {
-    const log = await Log.findById(req.params.id);
-    res.render('logs/Show', { log });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+// "create" route
+const logCreate = async(req, res) => {
+    console.log(req.body)
+    if (req.body.shipIsBroken === 'on') {
+        req.body.shipIsBroken = true
+    } else {
+        req.body.shipIsBroken = false
+    }
+    try{
+     const result = await logs.create(req.body)
+     console.log(result)
+    }catch(err){
+        console.log('error',err)
 
-// Edit route
-router.get('/:id/edit', async (req, res) => {
-  try {
-    const log = await Log.findById(req.params.id);
-    res.render('logs/Edit', { log });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+    }
+    logs.push(req.body)
+    res.redirect('/logs')
+}
 
-// Update route
-router.put('/:id', async (req, res) => {
-  try {
-    await Log.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect('/logs');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+// "edit" route
+const logEdit = async(req, res) => {
+    const data = await logs.findById(req.params.id)
+    res.render('logs/Edit', { log: data })
+}
 
-// Delete route
-router.delete('/:id', async (req, res) => {
-  try {
-    await Log.findByIdAndRemove(req.params.id);
-    res.redirect('/logs');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+// "destroy" route
+const logDelete = async(req, res) => {
+    const data =  await logs.findByIdAndDelete(req.params.id)
+    console.log('delete')
+    logs.splice(req.params.index, 1)
+    console.log('deleting')
+    res.redirect('/logs')
+}
 
-module.exports = router;
+// "update" route
+const logUpdate = async(req, res) => {
+    console.log('update',req.params.id)
+    if (req.body.shipIsBroken === 'on') {
+        req.body.shipIsBroken = true
+    } else {
+        req.body.shipIsBroken = false
+    }
+    await logs.findByIdAndUpdate(req.params.id, req.body)
+    logs[req.params.index] = req.body
+    res.redirect(`/logs/${req.params.id}`)
+}
+
+
+module.exports = {
+    logCreate,
+    logDelete,
+    logEdit,
+    logIndex,
+    logNew,
+    logShow,
+    logUpdate
+}
