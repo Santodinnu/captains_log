@@ -11,6 +11,10 @@ const PORT = 5000
 // load our engine
 const jsxEngine = require('jsx-view-engine')
 
+// setup our engine
+app.set('view engine', 'jsx');
+app.engine('jsx', jsxEngine());
+
 // bring in the router
 const logRoutes = require('./routes/logRoutes')
 
@@ -19,14 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 app.use('/logs', logRoutes)
 
-
-// setup our engine
-app.set('view engine', 'jsx');
-app.engine('jsx', jsxEngine());
-
 // "root" route
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('<a href="/logs">Go to /logs</a>')
 })
 
 app.listen(PORT, () => {
