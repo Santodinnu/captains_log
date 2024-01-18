@@ -10,7 +10,7 @@ export default function Index({ logs }) {
       <ul>
         {logs.map((log, i) => (
           <li key={i}>
-            The <a href={`/logs/${log._id}`}>{log.title}</a> is {fruit.color}{" "}
+            The <a href={`/logs/${log._id}`}>{log.title}</a>{" "}
             <br></br>
             {log.shipIsBroken ? `Ship is broken` : `Ship is not broken`}
             <br />

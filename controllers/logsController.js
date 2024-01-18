@@ -18,46 +18,55 @@ const logNew = (req, res) => {
 }
 
 // "show" route
-const logShow = async(req, res) => {
-    try{
-        console.log('hello')
-    const data = await logs.findById(req.params.id)
-    res.render('logs/Show', { log: data })
-    }catch(error){
-        console.log(error)
-    }
+// const logShow = async(req, res) => {
+//     try{
+//         console.log('hello')
+//     const data = await logs.findById(req.params.id)
+//     res.render('logs/Show', { log: data })
+//     }catch(error){
+//         console.log(error)
+//     }
    
-    // res.send(fruits[req.params.index])
-}
+// }
+const logShow = async (req, res) => {
+  try {
+      const log = await Log.findById(req.params.id);
+      res.render('logs/Show', { log: data });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
 
 // "create" route
-const logCreate = async(req, res) => {
-    console.log(req.body)
-    if (req.body.shipIsBroken === 'on') {
-        req.body.shipIsBroken = true
-    } else {
-        req.body.shipIsBroken = false
-    }
-    try{
-     const result = await logs.create(req.body)
-     console.log(result)
-    }catch(err){
-        console.log('error',err)
+const logCreate = async (req, res) => {
+  console.log(req.body);
+  if (req.body.shipIsBroken === 'on') {
+      req.body.shipIsBroken = true;
+  } else {
+      req.body.shipIsBroken = false;
+  }
 
-    }
-    logs.push(req.body)
-    res.redirect('/logs')
-}
+  try {
+      const result = await Log.create(req.body);
+      console.log(result);
+      res.redirect('/logs');
+  } catch (err) {
+      console.log('error', err);
+  }
+};
+
 
 // "edit" route
 const logEdit = async(req, res) => {
-    const data = await logs.findById(req.params.id)
+    const data = await Log.findById(req.params.id)
     res.render('logs/Edit', { log: data })
 }
 
 // "destroy" route
 const logDelete = async(req, res) => {
-    const data =  await logs.findByIdAndDelete(req.params.id)
+    const data =  await Log.findByIdAndDelete(req.params.id)
     console.log('delete')
     logs.splice(req.params.index, 1)
     console.log('deleting')
@@ -72,7 +81,7 @@ const logUpdate = async(req, res) => {
     } else {
         req.body.shipIsBroken = false
     }
-    await logs.findByIdAndUpdate(req.params.id, req.body)
+    await Log.findByIdAndUpdate(req.params.id, req.body)
     logs[req.params.index] = req.body
     res.redirect(`/logs/${req.params.id}`)
 }

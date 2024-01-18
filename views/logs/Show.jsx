@@ -8,9 +8,9 @@ export default function Show({ fruit, index }) {
             <br />
             {log.shipIsBroken ? `Ship is broken` : `Ship is not broken`}
             <br /><br />
-            <a href={`/logs/${log._id}/edit`}>Edit</a>
+            <a href={`/logs/${logs_id}/edit`}>Edit</a>
             <br /><br />
-            <form action={`/logs/${log._id}?_method=DELETE`} method='POST'>
+            <form action={`/logs/${logs_id}?_method=DELETE`} method='POST'>
                 <button>Delete</button>
             </form>
         </div>
