@@ -25,7 +25,7 @@ app.use('/logs',captainRoutes)
 
 // "root" route
 app.get('/', (req, res) => {
-    res.send('<a href="/logs">Go to /logs</a>')
+    res.send('<h1><a href="/logs">Go to  Captain logs</a></h1>')
 })
 
 app.listen(PORT, () => {
