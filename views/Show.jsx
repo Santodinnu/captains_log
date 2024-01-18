@@ -1,18 +1,18 @@
 import React from 'react'
 
-export default function Show({ fruit, index }) {
+export default function Show({log}) {
     return (
         <div>
             <h1>Show Page</h1>
-            The {log.title} is {log.entry}
-            <br />
-            {log.shipIsBroken ? `Ship is broken` : `Ship is not broken`}
-            <br /><br />
-            <a href={`/logs/${logs_id}/edit`}>Edit</a>
-            <br /><br />
-            <form action={`/logs/${logs_id}?_method=DELETE`} method='POST'>
-                <button>Delete</button>
-            </form>
-        </div>
-    )
+            <h2>{log.title}</h2>
+            <p>{log.entry}</p>
+        <p>{log.shipIsBroken ? "Ship broke..." : "Ship is not broken yet"}</p>
+        <a href={`/logs/${log._id}/edit`}><button>Edit</button></a>
+        <br />
+
+        <form action={`/logs/${log._id}?_method=DELETE`} method='POST'>
+            <button>Delete</button>
+        </form>
+    </div>
+  )
 }
