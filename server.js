@@ -16,12 +16,12 @@ app.set('view engine', 'jsx');
 app.engine('jsx', jsxEngine());
 
 // bring in the router
-const logRoutes = require('./routes/logRoutes')
+const captainRoutes = require('./routes/captainRoutes')
 
 // format our POST request data 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
-app.use('/logs', logRoutes)
+app.use('/logs',captainRoutes)
 
 // "root" route
 app.get('/', (req, res) => {
